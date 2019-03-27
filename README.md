@@ -1,2 +1,1 @@
-# reverse-polish-notation
-Two-way Reverse Polish Notation converter
+# Reverse Polish Notation converter
