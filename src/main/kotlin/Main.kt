@@ -4,11 +4,14 @@ import java.util.*
 
 fun main() {
     val scanner = Scanner(System.`in`)
-    var expressionCount = scanner.nextInt()
-    scanner.nextLine()
 
-    while (expressionCount-- > 0) {
-        val expression = ExpressionFactory.createFrom(scanner.nextLine())
+    while ( true ) {
+        val rawExpression = scanner.nextLine()
+
+        if (rawExpression.toLowerCase() == "quit")
+            break
+
+        val expression = ExpressionFactory.createFrom(rawExpression)
         expression.stripInvalid()
         println(expression.getConverted())
     }

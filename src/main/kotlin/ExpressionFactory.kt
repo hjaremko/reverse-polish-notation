@@ -1,6 +1,6 @@
 package pl.jaremko.rpn
 
-fun String.getType(): String = this.substring( 0, 3 )
+fun String.getType(): String = this.substring( 0, 3 ).toUpperCase()
 fun String.getExpression(): String = this.substring( 5 )
 
 class InvalidExpressionType(message: String?) : Exception(message)

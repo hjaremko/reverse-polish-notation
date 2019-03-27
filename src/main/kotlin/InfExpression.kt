@@ -6,42 +6,27 @@ import java.util.*
 
 private fun ArrayDeque<Token>.popAll(): String {
     var out = ""
-    var token: Token
 
     while (!this.isEmpty()) {
-        token = this.pop()
-        if (token.type == OpeningBrace) break
+        val token: Token = this.pop()
+
+        if (token.type == OpeningBrace) {
+            break
+        }
+
         out += token
     }
 
     return out
 }
 
-private fun ArrayDeque<Token>.popGreaterEqual(token: Token): String {
+inline private fun ArrayDeque<Token>.popWhile(condition: (Int) -> Boolean): String {
     var out = ""
 
-    while (!this.isEmpty() &&
-        this.peek().priority >= token.priority &&
-        this.peek().type != OpeningBrace
-    ) {
+    while (!this.isEmpty() && condition(this.peek().priority) && this.peek().type != OpeningBrace) {
         out += this.pop()
     }
 
-    this.push(token)
-    return out
-}
-
-private fun ArrayDeque<Token>.popGreater(token: Token): String {
-    var out = ""
-
-    while (!this.isEmpty() &&
-        this.peek().priority > token.priority &&
-        this.peek().type != OpeningBrace
-    ) {
-        out += this.pop()
-    }
-
-    this.push(token)
     return out
 }
 
@@ -107,12 +92,14 @@ class InfExpression(private var expression: String) : Expression {
 
                 when (token.type) {
                     Operand -> out += token
-                    OpeningBrace -> deque.push(token)
                     ClosingBrace -> out += deque.popAll()
-                    else -> when (token.associativity) {
-                        Left -> out += deque.popGreaterEqual(token)
-                        Right -> out += deque.popGreater(token)
-                        None -> Unit
+                    else -> {
+                        out += when (token.associativity) {
+                            Left -> deque.popWhile { a -> a >= token.priority }
+                            Right -> deque.popWhile { a -> a > token.priority }
+                            None -> ""
+                        }
+                        deque.push(token)
                     }
                 }
             }
