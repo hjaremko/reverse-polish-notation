@@ -1,5 +1,6 @@
 package pl.jaremko.rpn
 
+import java.lang.Exception
 import java.util.*
 
 fun main() {
@@ -11,8 +12,14 @@ fun main() {
         if (rawExpression.toLowerCase() == "quit")
             break
 
-        val expression = ExpressionFactory.createFrom(rawExpression)
-        expression.stripInvalid()
-        println(expression.getConverted())
+        try {
+            val expression = ExpressionFactory.createFrom(rawExpression)
+            expression.stripInvalid()
+            expression.checkValidity()
+            println(expression.getConverted())
+        }
+        catch (e: Exception) {
+            println(e.message)
+        }
     }
 }
