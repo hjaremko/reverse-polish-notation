@@ -1,5 +1,5 @@
+import pl.jaremko.rpn.Expression
 import pl.jaremko.rpn.InfExpression
-import pl.jaremko.rpn.RpnExpression
 import spock.lang.Specification
 
 class InfExpressionTest extends Specification {
@@ -33,7 +33,7 @@ class InfExpressionTest extends Specification {
             (new InfExpression(expr)).checkValidity()
 
         then:
-            def error = thrown(result)
+            thrown(result)
 
         where:
             expr            || result
@@ -45,7 +45,7 @@ class InfExpressionTest extends Specification {
 
     def "Should properly convert to RPN"() {
         when:
-            RpnExpression rpn = (new InfExpression(expr)).getConverted()
+        Expression rpn = (new InfExpression(expr)).getConverted()
 
         then:
             rpn.expression == result

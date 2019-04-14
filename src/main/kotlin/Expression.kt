@@ -5,4 +5,3 @@ interface Expression {
     fun getConverted(): Expression
     fun checkValidity()
 }
-

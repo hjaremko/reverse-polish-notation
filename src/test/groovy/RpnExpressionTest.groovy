@@ -1,4 +1,4 @@
-import pl.jaremko.rpn.InfExpression
+import pl.jaremko.rpn.Expression
 import pl.jaremko.rpn.RpnExpression
 import spock.lang.Specification
 
@@ -33,7 +33,7 @@ class RpnExpressionTest extends Specification {
             (new RpnExpression(expr)).checkValidity()
 
         then:
-            def error = thrown(result)
+            thrown(result)
 
         where:
             expr             | result
@@ -43,7 +43,7 @@ class RpnExpressionTest extends Specification {
 
     def "Should properly convert to INF"() {
         when:
-            InfExpression inf = (new RpnExpression(expr)).getConverted()
+        Expression inf = (new RpnExpression(expr)).getConverted()
 
         then:
             inf.expression == result

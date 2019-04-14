@@ -22,4 +22,6 @@ data class Token(
     }
 
     override fun toString() = value
+
+    fun addBraces(condition: Boolean) = if (condition) "($this)" else this.toString()
 }
